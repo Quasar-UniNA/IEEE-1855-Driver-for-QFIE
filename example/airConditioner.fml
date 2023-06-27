@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<fuzzySystem name="f" networkAddress="127.0.0.1" xmlns="http://www.ieee1855.org">
+    <knowledgeBase networkAddress="127.0.0.1">
+        <fuzzyVariable name="temperature" scale="fs" domainleft="-5.0" domainright="55.0" type="Input" accumulation="MAX" defuzzifier="COG" defaultValue="0.0" networkAddress="">
+            <fuzzyTerm name="very_cold" complement="false">
+                <triangularShape param1="-5.0" param2="-5.0" param3="10.0"/>
+            </fuzzyTerm>
+            <fuzzyTerm name="cold" complement="false">
+                <triangularShape param1="-5.0" param2="10.0" param3="25.0"/>
+            </fuzzyTerm>
+            <fuzzyTerm name="warm" complement="false">
+                <triangularShape param1="10.0" param2="25.0" param3="40.0"/>
+            </fuzzyTerm>
+            <fuzzyTerm name="hot" complement="false">
+                <triangularShape param1="25.0" param2="40.0" param3="55.0"/>
+            </fuzzyTerm>
+            <fuzzyTerm name="very_hot" complement="false">
+                <triangularShape param1="40.0" param2="55.0" param3="55.0"/>
+            </fuzzyTerm>
+        </fuzzyVariable>
+        <fuzzyVariable name="humidity" scale="hs" domainleft="0.0" domainright="100.0" type="Input" accumulation="MAX" defuzzifier="COG" defaultValue="0.0" networkAddress="">
+            <fuzzyTerm name="very_dry" complement="false">
+                <triangularShape param1="0.0" param2="0.0" param3="25.0"/>
+            </fuzzyTerm>
+            <fuzzyTerm name="dry" complement="false">
+                <triangularShape param1="0.0" param2="25.0" param3="50.0"/>
+            </fuzzyTerm>
+            <fuzzyTerm name="normal" complement="false">
+                <triangularShape param1="25.0" param2="50.0" param3="75.0"/>
+            </fuzzyTerm>
+            <fuzzyTerm name="wet" complement="false">
+                <triangularShape param1="50.0" param2="75.0" param3="100.0"/>
+            </fuzzyTerm>
+            <fuzzyTerm name="very_wet" complement="false">
+                <triangularShape param1="75.0" param2="100.0" param3="100.0"/>
+            </fuzzyTerm>
+        </fuzzyVariable>
+        <fuzzyVariable name="power" scale="ps" domainleft="0.0" domainright="250.0" type="Output" accumulation="MAX" defuzzifier="COG" defaultValue="0.0" networkAddress="">
+            <fuzzyTerm name="very_low" complement="false">
+                <triangularShape param1="0.0" param2="0.0" param3="62.5"/>
+            </fuzzyTerm>
+            <fuzzyTerm name="low" complement="false">
+                <triangularShape param1="0.0" param2="62.5" param3="125.0"/>
+            </fuzzyTerm>
+            <fuzzyTerm name="normal" complement="false">
+                <triangularShape param1="62.5" param2="125.0" param3="187.5"/>
+            </fuzzyTerm>
+            <fuzzyTerm name="high" complement="false">
+                <triangularShape param1="125.0" param2="187.5" param3="250.0"/>
+            </fuzzyTerm>
+            <fuzzyTerm name="very_high" complement="false">
+                <triangularShape param1="187.5" param2="250.0" param3="250.0"/>
+            </fuzzyTerm>
+        </fuzzyVariable>
+    </knowledgeBase>
+    <mamdaniRuleBase name="RB1" activationMethod="MIN" andMethod="MIN" orMethod="MAX" networkAddress="">
+        <rule name="RULE1" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>very_cold</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>very_dry</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>high</term>
+                    </clause>
+                </then>
+                <else/>
+            </consequent>
+        </rule>
+        <rule name="RULE2" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>very_cold</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>dry</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>high</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+        <rule name="RULE3" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>very_cold</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>normal</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>very_high</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+        <rule name="RULE4" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>very_cold</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>wet</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>very_high</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+        <rule name="RULE5" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>very_cold</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>very_wet</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>very_high</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+        <rule name="RULE6" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>cold</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>very_dry</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>normal</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+        <rule name="RULE7" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>cold</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>dry</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>high</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+        <rule name="RULE8" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>cold</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>normal</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>high</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+        <rule name="RULE9" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>cold</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>wet</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>very_high</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+        <rule name="RULE10" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>cold</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>very_wet</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>very_high</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+        <rule name="RULE11" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>warm</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>very_dry</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>very_low</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+        <rule name="RULE12" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>warm</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>dry</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>very_low</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+        <rule name="RULE13" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>warm</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>normal</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>very_low</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+        <rule name="RULE14" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>warm</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>wet</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>low</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+        <rule name="RULE15" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>warm</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>very_wet</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>normal</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+        <rule name="RULE16" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>hot</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>very_dry</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>normal</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+        <rule name="RULE17" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>hot</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>dry</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>normal</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+        <rule name="RULE18" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>hot</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>normal</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>high</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+        <rule name="RULE19" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>hot</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>wet</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>high</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+        <rule name="RULE20" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>hot</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>very_wet</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>very_high</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+        <rule name="RULE21" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>very_hot</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>very_dry</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>low</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+        <rule name="RULE22" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>very_hot</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>dry</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>normal</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+        <rule name="RULE23" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>very_hot</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>normal</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>high</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+        <rule name="RULE24" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>very_hot</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>wet</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>very_high</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+        <rule name="RULE25" andMethod="MIN" orMethod="MAX" connector="and" weight="1.0" networkAddress="">
+            <antecedent>
+                <clause>
+                    <variable>temperature</variable>
+                    <term>very_hot</term>
+                </clause>
+                <clause>
+                    <variable>humidity</variable>
+                    <term>very_wet</term>
+                </clause>
+            </antecedent>
+            <consequent>
+                <then>
+                    <clause>
+                        <variable>power</variable>
+                        <term>very_high</term>
+                    </clause>
+                </then>
+            </consequent>
+        </rule>
+    </mamdaniRuleBase>
+</fuzzySystem>
