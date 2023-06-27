@@ -1,0 +1,3 @@
+qiskit
+scikit-fuzzy==0.4.2
+matplotlib
